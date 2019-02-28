@@ -1,0 +1,23 @@
+#BlueJ class context
+comment0.target=HitBox
+comment1.params=eng\ x\ y\ width\ height
+comment1.target=HitBox(Engine,\ int,\ int,\ int,\ int)
+comment10.params=
+comment10.target=java.awt.Rectangle\ getBounds()
+comment2.params=
+comment2.target=boolean\ isColliding()
+comment3.params=id
+comment3.target=boolean\ isColliding(java.lang.String)
+comment4.params=x\ y
+comment4.target=void\ updatePosition(int,\ int)
+comment5.params=
+comment5.target=int\ getX()
+comment6.params=
+comment6.target=int\ getY()
+comment7.params=x
+comment7.target=void\ setX(int)
+comment8.params=y
+comment8.target=void\ setY(int)
+comment9.params=
+comment9.target=java.lang.String\ getPosition()
+numComments=11

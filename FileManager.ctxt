@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.target=FileManager
+comment1.params=data\ fileName\ exstention\ charSet
+comment1.target=void\ writeStringFile(java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String)
+comment2.params=data
+comment2.target=void\ writeObjectFile(java.lang.Object)
+comment3.params=path
+comment3.target=java.lang.Object\ readObjectFile(java.lang.String)
+comment4.params=path
+comment4.target=java.lang.String\ readStringFile(java.lang.String)
+numComments=5
