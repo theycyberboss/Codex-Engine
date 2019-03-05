@@ -13,35 +13,45 @@ public class Engine implements Runnable
    private Renderer renderer;
    private boolean isRunning;
    private Thread thread;
+   private boolean showFpsCounter;
    
    private int fps;
    
    private Keyboard keyboard;
    private Mouse mouse;
-   private Handler handler;
+   private ObjectManager handler;
    private IDManager idManager;
    private FileManager fileManager;
+   private StateManager stateManager;
+   private AudioManager audioManager;
+   private Application app;
    
    
-    public Engine(boolean createDebugger)
+    public Engine(boolean createDebugger,Application app)
     {
-
+       this.app = app;
        keyboard = new Keyboard();
        mouse = new Mouse(this);
-       handler = new Handler();
+       handler = new ObjectManager();
        idManager = new IDManager(handler);
+       fileManager = new FileManager();
+       stateManager = new StateManager(this);
+       audioManager = new AudioManager(this);
        isRunning = false;
+       showFpsCounter = true;
        fps = 0;
+
        
        window = new Window(720,480,"New Window");
        renderer = new Renderer(window);
        window.addComponent(renderer.getCanvas());
+       window.getFrame().setLocationRelativeTo(null);
        
        renderer.getCanvas().addKeyListener(keyboard);
        renderer.getCanvas().addMouseListener(mouse);
        renderer.getCanvas().addMouseMotionListener(mouse);
        renderer.init(); 
-       
+       app.init(this);
        
 
        if(createDebugger){
@@ -50,26 +60,30 @@ public class Engine implements Runnable
         
     }
     
-    public Engine(int width, int height,String title, boolean createDebugger){
+    public Engine(int width, int height,String title, boolean createDebugger, Application app){
 
-        
+       this.app = app;
        keyboard = new Keyboard();
        mouse = new Mouse(this);
-       handler = new Handler();
+       handler = new ObjectManager();
        idManager = new IDManager(handler);
        fileManager = new FileManager();
+       stateManager = new StateManager(this);
+       audioManager = new AudioManager(this);
        isRunning = false;
+       showFpsCounter = true;
        fps = 0;
        
        window = new Window(width,height,title);
        renderer = new Renderer(window);
        window.addComponent(renderer.getCanvas());
+       window.getFrame().setLocationRelativeTo(null);
        
        renderer.getCanvas().addKeyListener(keyboard);
        renderer.getCanvas().addMouseListener(mouse);
        renderer.getCanvas().addMouseMotionListener(mouse);
        renderer.init(); 
-
+       app.init(this);
        
        if(createDebugger){
            new Debugger(300,500);
@@ -80,7 +94,13 @@ public class Engine implements Runnable
     //are called from this method
     private void update()
     {
+       if(stateManager.getCurrentState() != null){
+           stateManager.getCurrentState().update(this);
+       }
+        
         handler.update(this);
+        
+        app.update(this);
     }
     
     //The master render method, all render method calls
@@ -92,12 +112,23 @@ public class Engine implements Runnable
        
        Graphics2D g = renderer.getGraphicsScaled();
        g.setColor(Color.black);
-       g.fillRect(0,0,100,100); 
-       handler.render(this);
-    
+       g.fillRect(0,0,100,100);
+       app.render(this);
        
-       g.setColor(Color.yellow);
-       g.drawString("FPS: " + fps,10,20);
+       //Check to see if we have a state, if so, render it 
+       if(stateManager.getCurrentState() != null){
+           stateManager.getCurrentState().render(this);
+       }
+       
+       handler.render(this);
+       
+       //Only render the fps counter when the programmer decides to use 
+       //it, active by default
+       if(showFpsCounter){
+           g.setColor(Color.yellow);
+           g.drawString("FPS: " + fps,10,20);
+       }
+       
        
         
     }
@@ -165,12 +196,27 @@ public class Engine implements Runnable
         
     }
     
+    
+    //Function used to add a gameobject to the specific state that is 
+    //currently active. Once a state has been changed, the gameObjectList is then changed
     public void addGameObject(GameObject o){
-        handler.getObjects().add(o);
+        if(stateManager.getCurrentState() != null){
+            stateManager.getCurrentState().addGameObject(o);
+        }
+        
+        
+    }
+    //Function used to remove a gameobject to the specific state that is 
+    //currently active. Once a state has been changed, the gameObjectList is then changed
+    public void removeGameObject(GameObject o){
+        if(stateManager.getCurrentState() != null){
+            stateManager.getCurrentState().removeGameObject(o);
+        }
+        
     }
     
-    public void removeGameObject(GameObject o){
-        handler.getObjects().remove(o);
+    public void enableFpsCounter(boolean en){
+        showFpsCounter = en;
     }
     
     public Renderer getRenderer()
@@ -200,5 +246,17 @@ public class Engine implements Runnable
     
     public IDManager getIDManager(){
         return idManager;
+    }
+    
+    public StateManager getStateManager(){
+        return stateManager;
+    }
+    
+    public AudioManager getAudioManager(){
+        return audioManager;
+    }
+    
+    public ObjectManager getObjectManager(){
+        return handler;
     }
 }

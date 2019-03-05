@@ -9,25 +9,16 @@
 import java.util.*;
 public class IDManager 
 {
-    private static Handler handler;
+    private static ObjectManager handler;
     
     //This class allows groups of objects to be grouped under on id and
-    //allows them to interect as if they had one id
-    public IDManager(Handler handler){
+    //allows them to interect as if they were one object
+    public IDManager(ObjectManager handler){
         this.handler = handler;
     }
     
-    public void addID(String id){
-        
-    }
-    public void removeID(String id){
-        
-    }
-    /*
-    public static String getID(GameObject object){
-        return "";
-    }
-    */
+    
+    //Function used to return the first gameObject with the specified id
     public static GameObject getObjectWithID(String id){
         for(int i = 0; i < handler.getObjects().size(); i++){
             GameObject temp = handler.getObjects().get(i);
@@ -39,6 +30,8 @@ public class IDManager
         return null;
     }
     
+    //Function used to return a list of all the current gameObjects
+    //with the specified id
     public static LinkedList<GameObject> getObjectsWithID(String id){
         LinkedList<GameObject> output = new LinkedList<GameObject> ();
         

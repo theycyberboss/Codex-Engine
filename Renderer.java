@@ -26,16 +26,16 @@ public class Renderer
         scaleY = 1;
     }
     
+    //Init function used to determain they amount of BufferStrategys we are
+    //going to be using 
     public void init()
     {
         canvas.createBufferStrategy(4);
     }
+ 
     
-    public Canvas getCanvas()
-    {
-        return canvas;
-    }
-    
+    //Function used to update and draw to the BufferStrategy before
+    //we display it to the canvas
     public void updateGraphics()
     {    
         
@@ -48,22 +48,18 @@ public class Renderer
         
     }
     
+    
+    //Function used to dispose/free memory space for the graphics object
+    //and to show the BufferStrategy after we have wrote to it
     public void cleanUp()
     {
         bs.show();
         g.dispose();
     }
+   
     
-    public Graphics2D getGraphics()
-    {
-        return g;
-    }
     
-    public Graphics2D getGraphicsScaled()
-    {
-        return gScale;
-    }
-    
+    //Function used to resize the orginal graphics object based on a scale ratio
     public void resizeGraphics(int baseWidth, int baseHeight, int newWidth, int newHeight)
     {
         scaleX = newWidth / (baseWidth * 1.0);
@@ -74,6 +70,8 @@ public class Renderer
         gScale.scale(scaleX,scaleY);
     }
     
+    
+    //Getters and setters
     public double getScaleX()
     {
         return scaleX;
@@ -82,6 +80,22 @@ public class Renderer
     public double getScaleY()
     {
         return scaleY;
+    }
+    
+       
+    public Canvas getCanvas()
+    {
+        return canvas;
+    }
+     
+    public Graphics2D getGraphics()
+    {
+        return g;
+    }
+    
+    public Graphics2D getGraphicsScaled()
+    {
+        return gScale;
     }
     
 }

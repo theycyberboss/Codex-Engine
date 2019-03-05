@@ -1,0 +1,15 @@
+#BlueJ class context
+comment0.target=State
+comment1.params=o
+comment1.target=void\ addGameObject(GameObject)
+comment2.params=o
+comment2.target=void\ removeGameObject(GameObject)
+comment3.params=
+comment3.target=java.util.LinkedList\ getStateObjects()
+comment4.params=eng
+comment4.target=void\ init(Engine)
+comment5.params=eng
+comment5.target=void\ update(Engine)
+comment6.params=eng
+comment6.target=void\ render(Engine)
+numComments=7

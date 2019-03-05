@@ -27,9 +27,14 @@ public class Window
        frame.setMinimumSize(dim);
        
        frame.setResizable(false);
+      // frame.setLocationRelativeTo(null);
        frame.setVisible(true);
        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        
+   }
+   
+   public JFrame getFrame(){
+       return frame;
    }
    
    //Add components to the jfraome

@@ -1,14 +1,9 @@
 #BlueJ class context
 comment0.target=IDManager
 comment1.params=handler
-comment1.target=IDManager(Handler)
+comment1.target=IDManager(ObjectManager)
 comment2.params=id
-comment2.target=void\ addID(java.lang.String)
+comment2.target=GameObject\ getObjectWithID(java.lang.String)
 comment3.params=id
-comment3.target=void\ removeID(java.lang.String)
-comment4.params=id
-comment4.target=GameObject\ getObjectWithID(java.lang.String)
-comment4.text=\r\n\ \ \ \ public\ static\ String\ getID(GameObject\ object){\r\n\ \ \ \ \ \ \ \ return\ "";\r\n\ \ \ \ }\r\n
-comment5.params=id
-comment5.target=java.util.LinkedList\ getObjectsWithID(java.lang.String)
-numComments=6
+comment3.target=java.util.LinkedList\ getObjectsWithID(java.lang.String)
+numComments=4

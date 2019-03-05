@@ -5,6 +5,7 @@
  * @author (your name) 
  * @version (a version number or a date)
  */
+
 import javax.swing.*;
 import java.awt.event.*;
 
@@ -16,6 +17,7 @@ public class Debugger
     
     public Debugger(int width, int height){
         window = new Window(width,height,"DEBUGGER");
+        
         area = new JTextArea();
         scroll = new JScrollPane(area);
         scroll.setSize(width,height);

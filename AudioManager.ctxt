@@ -1,0 +1,23 @@
+#BlueJ class context
+comment0.target=AudioManager
+comment1.params=eng
+comment1.target=AudioManager(Engine)
+comment10.params=key
+comment10.target=void\ loop(java.lang.String)
+comment2.params=key\ file
+comment2.target=void\ addClip(java.lang.String,\ java.io.File)
+comment3.params=key\ file
+comment3.target=void\ addClip(java.lang.String,\ java.lang.String)
+comment4.params=key\ file
+comment4.target=void\ addSoundClip(java.lang.String,\ java.lang.String)
+comment5.params=key\ file
+comment5.target=void\ addSoundClip(java.lang.String,\ java.io.File)
+comment6.params=key
+comment6.target=void\ removeClip(java.lang.String)
+comment7.params=key
+comment7.target=void\ play(java.lang.String)
+comment8.params=key
+comment8.target=void\ playSound(java.lang.String)
+comment9.params=key
+comment9.target=void\ stop(java.lang.String)
+numComments=11

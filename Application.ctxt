@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.target=Application
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ Application\ here.\r\n\r\n\ @author\ (your\ name)\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment1.params=eng
+comment1.target=void\ init(Engine)
+comment2.params=eng
+comment2.target=void\ render(Engine)
+comment3.params=eng
+comment3.target=void\ update(Engine)
+numComments=4

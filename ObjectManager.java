@@ -8,11 +8,11 @@
 
 import java.util.*;
 import java.awt.geom.*;
-public class Handler
+public class ObjectManager
 {
     private LinkedList<GameObject> objects;
     
-    public Handler(){
+    public ObjectManager(){
         objects = new LinkedList<GameObject> ();
     }
     
@@ -33,9 +33,25 @@ public class Handler
             AffineTransform old = eng.getGraphics().getTransform();
             eng.getGraphics().rotate(Math.toRadians(temp.getRotation()),temp.getX(),temp.getY());
             
-            temp.render(eng);
+            
+            if(temp.getSprite() != null){
+                if(temp.getSprite().getRawImage() != null){
+                     eng.getGraphics().drawImage(temp.getSprite().getRawImage(),temp.getX(),temp.getY(),temp.getWidth(),temp.getHeight(),null);
+                }else {
+                     temp.render(eng);
+                }
+               
+            }else {
+                temp.render(eng);
+            }
             eng.getGraphics().setTransform(old);
         }
+    }
+    
+    //Function used to set a new list of gameObjects, used with states in order
+    //to keep objects relative to what state they were added too
+    public void setObjectList(LinkedList<GameObject> newList){
+        objects = newList;
     }
     
     //The list that holds the data for all game objects

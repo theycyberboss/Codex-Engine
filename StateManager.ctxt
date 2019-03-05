@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.target=StateManager
+comment1.params=eng
+comment1.target=StateManager(Engine)
+comment2.params=
+comment2.target=State\ getCurrentState()
+comment3.params=id
+comment3.target=void\ setState(int)
+comment4.params=state\ id
+comment4.target=void\ addState(State,\ int)
+numComments=5
