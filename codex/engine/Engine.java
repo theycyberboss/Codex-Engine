@@ -126,7 +126,7 @@ public class Engine implements Runnable
        g.setColor(Color.black);
        g.fillRect(0,0,100,100);
        app.render(this);
-       mouse.update((int)renderer.getScaleX(),(int)renderer.getScaleY());
+       mouse.update(renderer.getScaleX(),renderer.getScaleY());
        
        
        //Check to see if we have a state, if so, render it 

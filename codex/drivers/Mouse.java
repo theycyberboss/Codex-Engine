@@ -12,11 +12,16 @@ import codex.engine.*;
 import java.awt.event.*;
 import java.util.*;
 import java.awt.geom.*;
+import java.awt.*;
+/**
+
+ */
 
 public class Mouse extends MouseAdapter
 {
   private static boolean mouseClicked,mousePressed,mouseReleased;
   private static int mx,my;
+  private static int trueMx,trueMy;
   private int clickCount,pastClickCount;
   private static boolean wasPressed;
   private static Engine eng;
@@ -94,22 +99,38 @@ public class Mouse extends MouseAdapter
   
   public static int getX()
   {
-      double scale = (eng.getWindow().getWidth() / eng.getWindow().getBaseWidth());
+     
       
       //System.out.println("MX: " + mx + " SCALE X: " + transform.getScaleX());
-      return mx;
+      return trueMx;
       
   }
   //fixedPoint.x * (1 - scale) / scale
 
-  public void update(int scaleX, int scaleY){
-      transform.scale(scaleX,scaleY);
+  public void update(double scaleX, double scaleY){
+      transform = AffineTransform.getScaleInstance(scaleX,scaleY); //Create a transform then scale it
+
+
+      try{
+          transform = transform.createInverse(); //Invert the transform
+      }catch(Exception e){
+
+      }
+      Point2D location = new Point(mx,my);
+    
+
+      transform.transform(location,location); //Create the scaled cordnates and push them to the location point
+      //System.out.println("Scale: " + scaleX);
+      //System.out.println("X: " + location.getX());
+
+      trueMx = (int)location.getX();
+      trueMy = (int)location.getY();
   }
   
   public static int getY()
   {
-      double scale = (eng.getWindow().getWidth() / eng.getWindow().getBaseWidth());
-      return my;
+   
+      return trueMy;
   }
   
 }
