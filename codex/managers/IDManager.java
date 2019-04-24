@@ -8,8 +8,10 @@ import codex.engine.*;
  */
 
 import java.util.*;
-public class IDManager 
+import java.io.*;
+public class IDManager implements Serializable
 {
+    private static final long serialVersionUID = 1L;
     private static ObjectManager handler;
     
     //This class allows groups of objects to be grouped under on id and
@@ -33,8 +35,8 @@ public class IDManager
     
     //Function used to return a list of all the current gameObjects
     //with the specified id
-    public static LinkedList<GameObject> getObjectsWithID(String id){
-        LinkedList<GameObject> output = new LinkedList<GameObject> ();
+    public static ArrayList<GameObject> getObjectsWithID(String id){
+        ArrayList<GameObject> output = new ArrayList<GameObject> ();
         
         for(int i = 0; i < handler.getObjects().size(); i++){
             GameObject temp = handler.getObjects().get(i);

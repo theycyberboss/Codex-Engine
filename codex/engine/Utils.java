@@ -43,4 +43,8 @@ public class Utils
 
         return points;
     }
+
+    public static float lerp(float point1, float point2, float alpha){
+        return point1 + alpha * (point2 - point1);
+    }
 }

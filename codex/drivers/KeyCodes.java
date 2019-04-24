@@ -9,8 +9,11 @@ package codex.drivers;
  /**
  
   */
-public class KeyCodes
+
+  import java.io.*;
+public class KeyCodes implements Serializable
 {
+   private static final long serialVersionUID = 1L;
    public static final int ALT = 18,
    ARROW_DOWN = 40,
    ARROW_LEFT = 37,
@@ -63,7 +66,17 @@ public class KeyCodes
    K_W = 87,
    K_X = 88, 
    K_Y = 89,
-   K_Z = 90
+   K_Z = 90,
+   N_0 = 48,
+   N_1 = 49,
+   N_2 = 50,
+   N_3 = 51,
+   N_4 = 52,
+   N_5 = 53,
+   N_6 = 54,
+   N_7 = 55,
+   N_8 = 56,
+   N_9 = 57
    ;
    
    

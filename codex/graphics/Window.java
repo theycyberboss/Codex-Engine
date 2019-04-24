@@ -9,9 +9,11 @@ package codex.graphics;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
-public class Window
+import java.io.*;
+public class Window implements Serializable
 {
-   private JFrame frame;
+    private static final long serialVersionUID = 1L;
+    private JFrame frame;
    private int baseWidth,baseHeight;
 
    public static boolean resized;

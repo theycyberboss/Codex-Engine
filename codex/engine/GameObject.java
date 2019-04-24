@@ -1,5 +1,6 @@
 package codex.engine;
 import codex.drivers.*;
+import java.io.*;
 /**
  * Write a description of class GameObject here.
  *
@@ -10,7 +11,7 @@ import codex.drivers.*;
 import java.awt.geom.*;
 import java.awt.*;
 import java.util.*;
-public abstract class GameObject
+public abstract class GameObject implements Serializable
 {
     private float x, y,width,height;
     private double rotation;
@@ -19,6 +20,8 @@ public abstract class GameObject
     private Sprite sprite;
     private Behavior behavior;
     private LinkedList<Behavior> behaviors;
+    private static final long serialVersionUID = 1L;
+    private String confPath;
     
     public GameObject(Engine eng,float x, float y){
         this.x = x;
@@ -50,10 +53,11 @@ public abstract class GameObject
 
     //This constructer allows you to create a file from what i am calling
     //a .cof file which stands for Codex Object File
-    public GameObject(Engine eng, float x, float y,String data){
+    public GameObject(Engine eng, float x, float y,String data, String path){
 
         behaviors = new LinkedList<Behavior> ();
-
+        
+        confPath = path;
         this.x = x;
         this.y = y;
 
@@ -72,6 +76,11 @@ public abstract class GameObject
         hitBox = new HitBox(eng,x,y,width,height);
         sprite = null;
         behavior = null;
+        
+    }
+
+    public String getConfPath(){
+        return confPath;
     }
 
     private void initBehaviors(Engine eng,GameObject o){
@@ -240,5 +249,16 @@ public abstract class GameObject
 
     public Behavior getBehavior(){
         return this.behavior;
+    }
+
+    public Behavior getBehaviors(String name){
+        for(int i = 0; i < behaviors.size(); i++){
+            Behavior temp = behaviors.get(i);
+            if(temp.getClass().getSimpleName().equals(name)){
+                return temp;
+            }
+        }
+
+        return null;
     }
 }

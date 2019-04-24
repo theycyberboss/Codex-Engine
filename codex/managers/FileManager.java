@@ -8,9 +8,11 @@ import codex.engine.*;
  */
 import java.io.*;
 
-public class FileManager //A Basic class for reading and writing data to files
+public class FileManager implements Serializable //A Basic class for reading and writing data to files
 {
-    //Function used to write String data to a specified file using a charset
+    private static final long serialVersionUID = 1L;
+
+    // Function used to write String data to a specified file using a charset
     //of your choosing
     public void writeStringFile(String data, String fileName,String exstention,String charSet){
         Writer writer = null;
@@ -30,6 +32,7 @@ public class FileManager //A Basic class for reading and writing data to files
         }
     }
     public void writeObjectFile(Object data){}
+    
     public Object readObjectFile(String path){return null;}
     public String readStringFile(String path){
        String out = "";

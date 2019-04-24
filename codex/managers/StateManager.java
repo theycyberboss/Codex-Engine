@@ -8,8 +8,11 @@ import codex.engine.*;
  */
 
 import java.util.*;
-public class StateManager
+import java.io.*;
+public class StateManager implements Serializable
 {
+    private static final long serialVersionUID = 1L;
+
     private LinkedList<State> gameStates;
     
     private State currentState;

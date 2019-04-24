@@ -9,9 +9,10 @@ package codex.engine;
 import java.io.*;
 import javax.imageio.*;
 import java.awt.image.*;
-public class Sprite
+public class Sprite implements Serializable
 {
     
+    private static final long serialVersionUID = 1L;
     private File rawFile;
     private BufferedImage rawImage;
     

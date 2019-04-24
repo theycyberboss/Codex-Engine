@@ -8,14 +8,18 @@ import codex.managers.*;
  * @version 0.02
  */
 import java.awt.*;
+import javax.swing.JPanel;
 import java.util.*;
 import codex.graphics.*;
 import codex.graphics.Window;
 import codex.drivers.*;
+import java.io.*;
 
-public class Engine implements Runnable
+public class Engine implements Runnable,Serializable
 {
-   private Window window;
+    private static final long serialVersionUID = 1L;
+    private Window window;
+   private JPanel panel;
    private Renderer renderer;
    private boolean isRunning;
    private Thread thread;
@@ -34,7 +38,15 @@ public class Engine implements Runnable
    private HashMap<String,Behavior> behaviors;
    private Camera camera;
 
+   private boolean hasPeer = false;
+
+   private int panelWidth,panelHeight;
+
+   private int viewWidth,viewHeight;
    
+
+   private boolean enableUpdate = true;;
+   private boolean enableRender = true;
    
    
     public Engine(boolean createDebugger,Application app)
@@ -69,9 +81,46 @@ public class Engine implements Runnable
        }
         
     }
+
+    public Engine(JPanel panel)
+    {
+
+        this.panel = panel;
+       this.app = null;
+       keyboard = new Keyboard();
+       mouse = new Mouse(this);
+       handler = new ObjectManager();
+       idManager = new IDManager(handler);
+       fileManager = new FileManager();
+       stateManager = new StateManager(this);
+       //audioManager = new AudioManager(this);
+       isRunning = false;
+       showFpsCounter = true;
+       fps = 0;
+
+        panelWidth = panel.getWidth();
+        panelHeight = panel.getHeight();
+       
+       //window = new Window(720,480,"New Window");
+       //renderer = new Renderer(window);
+       //window.addComponent(renderer.getCanvas());
+       //window.getFrame().setLocationRelativeTo(null);
+       
+       //renderer.getCanvas().addKeyListener(keyboard);
+       //renderer.getCanvas().addMouseListener(mouse);
+       //renderer.getCanvas().addMouseMotionListener(mouse);
+       renderer = new Renderer(panel);
+       //renderer.init(); 
+       //app.init(this);
+       
+        
+    }
+
+
     
     public Engine(int width, int height,String title, boolean createDebugger, Application app){
 
+        hasPeer = true;
        this.app = app;
        keyboard = new Keyboard();
        mouse = new Mouse(this);
@@ -105,13 +154,20 @@ public class Engine implements Runnable
     //are called from this method
     private void update()
     {
+
+
        if(stateManager.getCurrentState() != null){
            stateManager.getCurrentState().update(this);
        }
+        if(enableUpdate){
+            handler.update(this);
+        }
         
-        handler.update(this);
         
-        app.update(this);
+        if(app != null){
+            app.update(this);
+        }
+        
     }
     
     //The master render method, all render method calls
@@ -119,19 +175,48 @@ public class Engine implements Runnable
     private void render()
     {
        
-       renderer.resizeGraphics(window.getBaseWidth(),window.getBaseHeight(),window.getWidth(),window.getHeight());
+        if(camera != null && window.resized){
+            //int scaleX = camera.getViewWidth() + window.getWidth() ;
+            //int scaleY = camera.getViewHeight() + window.getHeight() ;
+
+            int scaleX = camera.getViewWidth();
+            int scaleY = camera.getViewHeight() ;
+
+            if(scaleX == 0){
+                scaleX = 1;
+            } 
+            if(scaleY == 0){
+                scaleY = 1;
+            }
+
+            //System.out.println(scaleX);
+            //renderer.resizeGraphics(window.getBaseWidth(),window.getBaseHeight(),scaleX ,scaleY);
+            renderer.resizeGraphics(scaleX,scaleY,window.getWidth() ,window.getHeight());
+        }
+
+        if(camera == null){
+            mouse.update(renderer.getScaleX(),renderer.getScaleY());
+       }else if(camera != null) {
+            mouse.update(renderer.getScaleX(),renderer.getScaleY(),camera.getOffSetX(),camera.getOffSetY());
+
+       }
+       
+        
+      
         renderer.getGraphics();
-       
-       handler.renderGUI(this);
-       
+        
+        
+        
        
        if(camera != null){
            renderer.getGraphics().translate(-camera.getX(),-camera.getY());
        }
        //renderer.getGraphics().setColor(Color.black);
        //renderer.getGraphics().fillRect(0,0,100,100);
-       app.render(this);
-       mouse.update(renderer.getScaleX(),renderer.getScaleY());
+       if(app != null){
+        app.render(this);
+       }
+       
        
        
        //Check to see if we have a state, if so, render it 
@@ -139,8 +224,24 @@ public class Engine implements Runnable
            stateManager.getCurrentState().render(this);
        }
        
-       handler.render(this);
-	   
+       if(enableRender){
+        handler.render(this);
+       }
+       
+       if(camera != null){
+        renderer.getGraphics().translate(camera.getX(),camera.getY());
+    }
+    if(enableRender){
+        handler.renderGUI(this);
+    }
+    
+
+       
+
+       
+       //renderer.getGraphics().translate(0,0);
+       
+    
 	   //g.translate(0,0);
 	   
        
@@ -148,10 +249,10 @@ public class Engine implements Runnable
        //it, active by default
        if(showFpsCounter){
            renderer.getGraphics().setColor(Color.yellow);
-           renderer.getGraphics().drawString("FPS: " + fps,10,20);
+           renderer.getGraphics().drawString("FPS: " + fps,10,getWindow().getBaseHeight()-40);
 
            renderer.getGraphics().setColor(Color.yellow);
-           renderer.getGraphics().drawString("OBJECTS: " + handler.getObjectCount(),10,40);
+           renderer.getGraphics().drawString("OBJECTS: " + handler.getObjectCount(),100,getWindow().getBaseHeight()-40);
        }
        
 
@@ -194,6 +295,7 @@ public class Engine implements Runnable
       long timer = System.currentTimeMillis();
       int frames = 0;
       while(isRunning) {
+        Toolkit.getDefaultToolkit().sync();
        long now = System.nanoTime();
        delta += (now - lastTime) / ns;
        lastTime = now;
@@ -201,13 +303,21 @@ public class Engine implements Runnable
        
        
        while(delta >= 1) {
-        update();
+           
+            update();
+           
+        
         //updates++;
         delta--;
        }
-       renderer.updateGraphics();
-       render();
-       renderer.cleanUp();
+
+       if(hasPeer){
+        renderer.updateGraphics();
+        render();
+        renderer.cleanUp();
+
+       }
+       
        frames++;
 
        if(System.currentTimeMillis() - timer > 1000) {
@@ -321,5 +431,22 @@ public class Engine implements Runnable
 	
 	public Camera getCamera(){
 		return camera;
-	}
+    }
+
+    public void setRender(boolean render){
+        enableRender = render;
+    }
+    
+    public void setValidPeer(boolean b){
+        hasPeer = b;
+        
+        renderer.getCanvas().addKeyListener(keyboard);
+       renderer.getCanvas().addMouseListener(mouse);
+       renderer.getCanvas().addMouseMotionListener(mouse);
+       renderer.init(); 
+    }
+
+    public void enableUpdates(boolean update){
+        enableUpdate = update;
+    }
 }

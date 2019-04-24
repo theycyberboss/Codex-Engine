@@ -7,9 +7,11 @@ package codex.engine;
  */
 import java.awt.*;
 import java.awt.geom.*;
-public class HitBox
+import java.io.*;
+public class HitBox implements Serializable
 {
-    private float x, y,width,height;
+    private static final long serialVersionUID = 1L;
+    private float x, y, width, height;
     private Rectangle2D.Float rect;
     private Engine eng;
     private GameObject currentCollidingObject;
@@ -44,7 +46,7 @@ public class HitBox
     //Function that returns the last known object that the hitbox that 
     //called thus function, collided with
     public GameObject getOther(){
-        Debugger.log(""+currentCollidingObject);
+       
         return currentCollidingObject;
        
     }
@@ -53,9 +55,11 @@ public class HitBox
     //if the hitbox that called this function, is colliding with any gameobject 
     //with the specified id
     public boolean isColliding(String id){
+
+        
         for(int i = 0; i < eng.getIDManager().getObjectsWithID(id).size(); i++){
             GameObject temp = eng.getIDManager().getObjectsWithID(id).get(i);
-            if(temp.getHitBox().getBounds().intersects(rect.getBounds())){
+            if(temp.getHitBox().getBounds().intersects(rect.getBounds()) && temp.getHitBox() != this){
                 currentCollidingObject = temp;
                 return true;
             }

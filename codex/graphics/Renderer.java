@@ -8,9 +8,12 @@ package codex.graphics;
 
 import java.awt.*;
 import java.awt.image.*;
+import javax.swing.*;
+import java.io.*;
 
-public class Renderer
+public class Renderer implements Serializable
 {
+    private static final long serialVersionUID = 1L;
     private Canvas canvas;
     private Graphics2D g,gScale;
     private BufferStrategy bs;
@@ -18,6 +21,15 @@ public class Renderer
     private double scaleX,scaleY;
     
     public Renderer(Window window)
+    {
+        canvas = new Canvas();
+        canvas.setSize(window.getWidth(),window.getHeight());
+       
+        scaleX = 1;
+        scaleY = 1;
+    }
+
+    public Renderer(JPanel window)
     {
         canvas = new Canvas();
         canvas.setSize(window.getWidth(),window.getHeight());

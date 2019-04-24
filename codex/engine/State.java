@@ -8,7 +8,7 @@ package codex.engine;
 import java.util.*;
 public abstract class State
 {
-    private LinkedList<GameObject> currentObjects = new LinkedList<GameObject> ();
+    private ArrayList<GameObject> currentObjects = new ArrayList<GameObject> ();
   
     public void addGameObject(GameObject o){
         currentObjects.add(o);
@@ -18,7 +18,7 @@ public abstract class State
         currentObjects.remove(o);
     }
     
-    public LinkedList<GameObject> getStateObjects(){
+    public ArrayList<GameObject> getStateObjects(){
         return currentObjects;
     }
     

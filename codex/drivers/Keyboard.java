@@ -9,9 +9,11 @@ package codex.drivers;
   */
 import java.awt.event.KeyAdapter;
 import java.awt.event.*;
+import java.io.*;
 
-public class Keyboard extends KeyAdapter
+public class Keyboard extends KeyAdapter implements Serializable
 {
+    private static final long serialVersionUID = 1L;
     private static boolean keyCodes[];
     
     public Keyboard()
