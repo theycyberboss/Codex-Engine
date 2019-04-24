@@ -14,6 +14,7 @@ public class StateManager
     
     private State currentState;
     private Engine eng;
+    
     public StateManager(Engine eng){
         gameStates = new LinkedList<State> ();
         currentState = null;

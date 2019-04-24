@@ -33,6 +33,8 @@ public class Engine implements Runnable
    private Application app;
    private HashMap<String,Behavior> behaviors;
    private Camera camera;
+
+   
    
    
     public Engine(boolean createDebugger,Application app)
@@ -116,15 +118,18 @@ public class Engine implements Runnable
     //stem from this method
     private void render()
     {
+       
        renderer.resizeGraphics(window.getBaseWidth(),window.getBaseHeight(),window.getWidth(),window.getHeight());
+        renderer.getGraphics();
+       
+       handler.renderGUI(this);
        
        
-       Graphics2D g = renderer.getGraphicsScaled();
        if(camera != null){
-           g.translate(-camera.getX(),-camera.getY());
+           renderer.getGraphics().translate(-camera.getX(),-camera.getY());
        }
-       g.setColor(Color.black);
-       g.fillRect(0,0,100,100);
+       //renderer.getGraphics().setColor(Color.black);
+       //renderer.getGraphics().fillRect(0,0,100,100);
        app.render(this);
        mouse.update(renderer.getScaleX(),renderer.getScaleY());
        
@@ -135,15 +140,18 @@ public class Engine implements Runnable
        }
        
        handler.render(this);
+	   
+	   //g.translate(0,0);
+	   
        
        //Only render the fps counter when the programmer decides to use 
        //it, active by default
        if(showFpsCounter){
-           g.setColor(Color.yellow);
-           g.drawString("FPS: " + fps,10,20);
+           renderer.getGraphics().setColor(Color.yellow);
+           renderer.getGraphics().drawString("FPS: " + fps,10,20);
 
-           g.setColor(Color.yellow);
-           g.drawString("OBJECTS: " + handler.getObjectCount(),10,40);
+           renderer.getGraphics().setColor(Color.yellow);
+           renderer.getGraphics().drawString("OBJECTS: " + handler.getObjectCount(),10,40);
        }
        
 
@@ -310,4 +318,8 @@ public class Engine implements Runnable
     public void setCamera(Camera cam){
         camera = cam;
     }
+	
+	public Camera getCamera(){
+		return camera;
+	}
 }

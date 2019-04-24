@@ -8,15 +8,18 @@ package codex.graphics;
 
 import java.awt.*;
 import javax.swing.*;
-
+import java.awt.event.*;
 public class Window
 {
    private JFrame frame;
    private int baseWidth,baseHeight;
+
+   public static boolean resized;
     
    public Window(int width, int height, String title)
    {
        frame = new JFrame(title);
+       resized = false;
        
        baseWidth = width;
        baseHeight = height;
@@ -30,6 +33,7 @@ public class Window
       // frame.setLocationRelativeTo(null);
        frame.setVisible(true);
        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+       frame.addComponentListener(new FrameListen());
        
    }
    
@@ -66,4 +70,31 @@ public class Window
    {
        return baseHeight;
    }
+
+   public boolean isResizing(){
+       if(resized){
+           resized = false;
+           
+           return true;
+       }
+
+       return false;
+       
+   }
+   
+   private class FrameListen implements ComponentListener{
+        public void componentHidden(ComponentEvent arg0) {
+        }
+        public void componentMoved(ComponentEvent arg0) {   
+        }
+        public void componentResized(ComponentEvent arg0) {
+            resized = true;
+
+        }
+        public void componentShown(ComponentEvent arg0) {
+
+        }
+    }
 }
+
+

@@ -67,7 +67,7 @@ public class Renderer
         gScale = g;
         
         //g.scale(scaleX, scaleY);
-        gScale.scale(scaleX,scaleY);
+        g.scale(scaleX,scaleY);
     }
     
     

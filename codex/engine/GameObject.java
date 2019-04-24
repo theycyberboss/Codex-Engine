@@ -88,6 +88,10 @@ public abstract class GameObject
         }
 
     }
+	
+	public void renderGUI(Engine eng){
+		
+	}
 
 
     //Function used to parse the String data that is being read
@@ -97,7 +101,7 @@ public abstract class GameObject
         String spritePath = "";
         //data = data.trim();
         int length = data.length();
-        System.out.println(data);
+        //System.out.println(data);
         
         
 

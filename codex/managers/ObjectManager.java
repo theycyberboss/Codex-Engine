@@ -37,7 +37,7 @@ public class ObjectManager
             GameObject temp = objects.get(i);
             
             AffineTransform old = eng.getGraphics().getTransform();
-            eng.getGraphics().rotate(Math.toRadians(temp.getRotation()),temp.getX(),temp.getY());
+            eng.getGraphics().rotate(Math.toRadians(temp.getRotation()),temp.getX() + temp.getWidth()/2,temp.getY() + temp.getHeight()/2);
             
             
             if(temp.getSprite() != null){
@@ -57,6 +57,14 @@ public class ObjectManager
             eng.getGraphics().setTransform(old);
         }
     }
+	
+	public void renderGUI(Engine eng){
+		for(int i = 0; i < objects.size(); i++){
+			GameObject temp = objects.get(i);
+			temp.renderGUI(eng);
+			
+		}
+	}
 
     public int getObjectCount(){
         return objects.size();
